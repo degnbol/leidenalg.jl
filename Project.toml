@@ -1,0 +1,8 @@
+name = "Leiden"
+uuid = "f7251f11-3029-455f-9099-70cf2221a549"
+version = "0.1.0"
+authors = ["Christian Degnbol Madsen <christian.degnbol@gmail.com>"]
+
+[deps]
+CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
