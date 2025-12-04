@@ -1,11 +1,20 @@
 Leiden algorithm wrapper in Julia.
-Wraps the C++ package `libleidenalg`.
+Wraps the C++ package [`libleidenalg`](https://github.com/vtraag/libleidenalg).
 
-Example use:
+# Install
+Clone repo recursively then
+```
+./install.sh
+```
+
+# Example
 ```julia
-using Leiden: leiden
+using Leiden
+using SparseArrays
 
-adj = randn(7, 7)
+adj = sprand(Float64, 20, 20, 0.2)
+adj[diagind(adj)] .= 0.
+
 partitions = leiden(adj)
-@assert size(partitions) == (7,)
+@assert size(partitions) == (20,)
 ```
