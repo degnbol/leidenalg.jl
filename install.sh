@@ -1,12 +1,11 @@
 #!/usr/bin/env zsh
 set -euo pipefail
 
-# Julia deps.
-./install.jl
-
 # Build igraph.
 # https://igraph.org/c/doc/igraph-Installation.html
-cd $0:h/igraph/
+cd $0:h/
+git clone --depth=1 https://github.com/igraph/igraph deps/igraph
+cd deps/igraph/
 mkdir -p build/
 cd build/
 cmake ..
@@ -15,7 +14,9 @@ cmake --build . --target check
 cmake --install .
 
 # Build libleidenalg.
-cd $0:h/libleidenalg/
+cd $0:h/
+git clone --depth=1 https://github.com/vtraag/libleidenalg deps/libleidenalg
+cd deps/libleidenalg/
 mkdir -p build/
 cd build/
 cmake ..

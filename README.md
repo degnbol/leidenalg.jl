@@ -8,9 +8,9 @@ Wraps the C++ package [`libleidenalg`](https://github.com/vtraag/libleidenalg).
 - Julia
 
 # Install
-Clone repo recursively then
+In Julia Pkg REPL
 ```
-./install.sh
+add https://github.com/degnbol/leidenalg.jl#Pkg
 ```
 
 # Example
@@ -18,7 +18,7 @@ Clone repo recursively then
 using Leiden
 using SparseArrays
 
-adj = sprand(Float64, 20, 20, 0.2)
+adj = sprand(20, 20, 0.2)
 adj[diagind(adj)] .= 0.
 
 partitions = leiden(adj)

@@ -1,6 +1,0 @@
-[submodule "libleidenalg"]
-	path = libleidenalg
-	url = https://github.com/vtraag/libleidenalg
-[submodule "igraph"]
-	path = igraph
-	url = https://github.com/igraph/igraph
