@@ -4,7 +4,7 @@ set -euo pipefail
 # Build igraph.
 # https://igraph.org/c/doc/igraph-Installation.html
 cd $0:h/
-git clone --depth=1 https://github.com/igraph/igraph deps/igraph
+git clone https://github.com/igraph/igraph deps/igraph
 cd deps/igraph/
 mkdir -p build/
 cd build/
@@ -15,7 +15,7 @@ cmake --install .
 
 # Build libleidenalg.
 cd $0:h/
-git clone --depth=1 https://github.com/vtraag/libleidenalg deps/libleidenalg
+git clone https://github.com/vtraag/libleidenalg deps/libleidenalg
 cd deps/libleidenalg/
 mkdir -p build/
 cd build/
