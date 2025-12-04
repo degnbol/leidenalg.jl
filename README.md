@@ -1,6 +1,12 @@
 Leiden algorithm wrapper in Julia.
 Wraps the C++ package [`libleidenalg`](https://github.com/vtraag/libleidenalg).
 
+# Dependencies
+
+- cmake
+- zsh
+- Julia
+
 # Install
 Clone repo recursively then
 ```
