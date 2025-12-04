@@ -1,27 +1,28 @@
 module Leiden
 export leiden
+using CxxWrap
 
-# Lazy install python deps to local env.
-env = joinpath(@__DIR__(),  "..", ".venv")
-ENV["PYTHON"] = joinpath(env, "bin", "python")
-ENV["PYCALL_JL_RUNTIME_PYTHON"] = ENV["PYTHON"]
-ENV["PYTHONPATH"] = @__DIR__()
-if !isdir(env)
-    print("Installing python dependencies...")
-    mkdir(env)
-    using Conda
-    Conda.create(env)
-    Conda.add(["numpy", "leidenalg"], env)
-    using Pkg
-    Pkg.build("PyCall")
-end
+@wrapmodule(() -> joinpath(@__DIR__(), "..", "build", "libwrapper"))
 
-using PyCall
+__init__() = @initcxx
 
-@pyinclude(joinpath(@__DIR__(), "leiden.py"))
-
-function leiden(adj::T) where T<:AbstractMatrix
-    py"leiden"(adj)
+function leiden(adj::T)::Vector{Int} where T<:AbstractMatrix
+    M, N = size(adj)
+    @assert M == N "Adjacency matrix should be square. $M != $N"
+    adj = adj |> vec |> StdVector
+    mem = cxxleiden(adj, N) .|> Int
+    # Partition identifiers are arbitrary, 0-indexed and the list may not start with 0 as the first entry.
+    # Change the arbitrary identifiers of partitions so they are increasing order.
+    # For the sake of stability in comparisons.
+    # Also, start from 1.
+    comm = zeros(Int, length(mem))
+    for part in 1:(maximum(mem)+1)
+        # Get first node that isn't assigned a partition yet.
+        i = findfirst(comm .== 0)
+        # Partition re-assignment.
+        comm[mem[i] .== mem] .= part
+    end
+    comm
 end
 
 end;

@@ -4,10 +4,7 @@ version = "0.1.0"
 authors = ["Christian Degnbol Madsen <christian.degnbol@gmail.com>"]
 
 [deps]
-Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
-Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+CxxWrap = "1f15a43c-97ca-5a2a-ae31-89f07a497df4"
 
 [compat]
-Conda = "1.10.3"
-Pkg = "1.12.0"
+CxxWrap = "0.17.4"
