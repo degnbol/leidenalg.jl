@@ -24,6 +24,7 @@ cmake --build . --target install
 
 # Build Julia C++ wrapper.
 cd $0:h/
+rm -r build/
 mkdir build/
 cd build/
 # Get the path to libcxxwrap as mentioned on the README

@@ -2,35 +2,43 @@
 #include <GraphHelper.h>
 #include <Optimiser.h>
 #include <CPMVertexPartition.h>
-#include <stdio.h>
+#include <ModularityVertexPartition.h>
 #include "jlcxx/jlcxx.hpp"
 
-using std::cout;
-using std::endl;
-
-int leiden()
+vector<size_t> leiden(vector<double> adj, int N)
 {
+    const igraph_matrix_t mat = igraph_matrix_view(adj.data(), N, N);
+
+    // Initialize vector for edge weights.
+    igraph_vector_t edge_weights;
+    igraph_vector_init(&edge_weights, 0);
+
     igraph_t g;
-    igraph_famous(&g, "Zachary");
+    igraph_weighted_adjacency(
+            &g, // modifies
+            &mat,
+            IGRAPH_ADJ_DIRECTED,
+            &edge_weights, // modifies
+            // include self-loops once
+            IGRAPH_LOOPS_ONCE
+      );
 
     Graph graph(&g);
 
-    CPMVertexPartition part(&graph,
-                            0.05 /* resolution */ );
+    // second arg is resolution
+    // CPMVertexPartition part(&graph, 0.05);
+    ModularityVertexPartition part(&graph);
 
     Optimiser o;
-
     o.optimise_partition(&part);
 
-    cout << "Node\tCommunity" << endl;
-    for (int i = 0; i < graph.vcount(); i++)
-        cout << i << "\t" << part.membership(i) << endl;
-
     igraph_destroy(&g);
+
+    return part.membership();
 }
 
 
 JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
 {
-    mod.method("leiden", &leiden);
+    mod.method("cxxleiden", &leiden);
 }
