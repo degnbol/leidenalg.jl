@@ -1,14 +1,14 @@
 module Leiden
-export leiden
+# export leiden
+using CxxWrap
 
-include("pythoncall.jl") # pyinclude
+@wrapmodule(() -> joinpath(@__DIR__(), "..", "build", "libwrapper"))
 
-py_leiden, = pyinclude(@__DIR__() * "/leiden.py", :leiden)
-
-function leiden(adjacency_weighted::T) where T<:AbstractMatrix
-    py_mat = Py(adjacency_weighted).to_numpy()
-    py_comm = py_leiden(py_mat)
-    pyconvert(Vector, py_comm)
-end
+__init__() = @initcxx
+# function leiden(adjacency_weighted::T) where T<:AbstractMatrix
+#     py_mat = Py(adjacency_weighted).to_numpy()
+#     py_comm = py_leiden(py_mat)
+#     pyconvert(Vector, py_comm)
+# end
 
 end;

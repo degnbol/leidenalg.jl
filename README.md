@@ -1,9 +1,5 @@
-
 Leiden algorithm wrapper in Julia.
-Wraps the Python package `leidenalg`, 
-which itself is a wrapper of C++ code, see
-https://github.com/vtraag/leidenalg.
-Calls Python code from Julia using `PythonCall`.
+Wraps the C++ package `libleidenalg`.
 
 Example use:
 ```julia
