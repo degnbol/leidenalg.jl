@@ -9,7 +9,7 @@ __init__() = @initcxx
 function leiden(adj::T)::Vector{Int} where T<:AbstractMatrix
     M, N = size(adj)
     @assert M == N "Adjacency matrix should be square. $M != $N"
-    adj = adj |> vec |> StdVector
+    adj = adj |> collect |> vec .|> Float64 |> StdVector
     mem = cxxleiden(adj, N) .|> Int
     # Partition identifiers are arbitrary, 0-indexed and the list may not start with 0 as the first entry.
     # Change the arbitrary identifiers of partitions so they are increasing order.
