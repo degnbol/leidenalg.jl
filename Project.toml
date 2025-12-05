@@ -5,9 +5,11 @@ authors = ["Christian Degnbol Madsen <christian.degnbol@gmail.com>"]
 
 [deps]
 CxxWrap = "1f15a43c-97ca-5a2a-ae31-89f07a497df4"
+Libdl = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 igraph_jll = "4d841945-e0c2-5143-9479-18e4f0102556"
 
 [compat]
 CxxWrap = "0.17"
+Libdl = "1.11.0"
 igraph_jll = "1.0.0"
