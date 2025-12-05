@@ -1,6 +1,11 @@
 module Leiden
 export leiden
 using CxxWrap
+using igraph_jll
+
+# Load igraph_jll dependencies before loading our wrapper
+# This must happen before @wrapmodule which runs at precompile time
+const _igraph_handle = igraph_jll.libigraph_handle
 
 @wrapmodule(() -> joinpath(@__DIR__(), "..", "build", "libwrapper"))
 
