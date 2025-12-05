@@ -10,7 +10,7 @@ Wraps the C++ package [`libleidenalg`](https://github.com/vtraag/libleidenalg).
 # Install
 In Julia Pkg REPL
 ```
-add https://github.com/degnbol/leidenalg.jl#Pkg
+add https://github.com/degnbol/leidenalg.jl#main
 ```
 
 # Example
