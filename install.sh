@@ -1,12 +1,12 @@
 #!/usr/bin/env zsh
 set -euo pipefail
+cd $0:h/
 
 # Julia deps
 ./install.jl
 
 # Build igraph.
 # https://igraph.org/c/doc/igraph-Installation.html
-cd $0:h/
 git clone https://github.com/igraph/igraph deps/igraph
 cd deps/igraph/
 mkdir -p build/
