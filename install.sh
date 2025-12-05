@@ -1,9 +1,12 @@
 #!/usr/bin/env zsh
 set -euo pipefail
-cd $0:h/
+
+# Get absolute path to script directory
+SCRIPT_DIR=${0:a:h}
+cd "$SCRIPT_DIR"
 
 # Julia deps (includes igraph_jll)
-./install.jl
+julia --project=. -e 'using Pkg; Pkg.instantiate()'
 
 # Get igraph paths from igraph_jll
 igraph_prefix=$(julia --project=. -e 'using igraph_jll; igraph_jll.libigraph_path |> dirname |> dirname |> print')
@@ -13,26 +16,26 @@ echo "Using igraph from: $igraph_prefix"
 if [[ ! -d deps/libleidenalg ]]; then
     git clone https://github.com/vtraag/libleidenalg deps/libleidenalg
 fi
-cd deps/libleidenalg/
-mkdir -p build/
-cd build/
+cd "$SCRIPT_DIR/deps/libleidenalg"
+mkdir -p build
+cd build
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_PREFIX_PATH="$igraph_prefix" \
     -DBUILD_SHARED_LIBS=ON
 cmake --build . -j
 # Install to a local prefix
-cmake --install . --prefix "$0:h:A/deps/local"
+cmake --install . --prefix "$SCRIPT_DIR/deps/local"
 
 # Build Julia C++ wrapper.
-cd $0:h/
-rm -rf build/
-mkdir build/
-cd build/
+cd "$SCRIPT_DIR"
+rm -rf build
+mkdir build
+cd build
 # Get the path to libcxxwrap as mentioned on the README
 # https://github.com/JuliaInterop/CxxWrap.jl
-libcxxwrap_prefix=$(julia --project=. -e 'using CxxWrap; println(CxxWrap.prefix_path())')
+libcxxwrap_prefix=$(julia --project="$SCRIPT_DIR" -e 'using CxxWrap; println(CxxWrap.prefix_path())')
 cmake -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_PREFIX_PATH="$libcxxwrap_prefix;$igraph_prefix;$0:h:A/deps/local" \
+    -DCMAKE_PREFIX_PATH="$libcxxwrap_prefix;$igraph_prefix;$SCRIPT_DIR/deps/local" \
     ../src/
 cmake --build . --config Release
